@@ -13,9 +13,9 @@ app.use(express.static('dist'));
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, '/backend/views'));
-console.log(path.join(__dirname, '/backend/views'));
+app.set('views', path.join(__dirname, '/views'));
+console.log(path.join(__dirname, '/views'));
 
-app.use('/', require('./backend/routes'));
+app.use('/', require('./routes'));
 
 app.listen(3000);

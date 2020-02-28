@@ -6,9 +6,9 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "nodemon": "nodemon app.js",
-        "dev": "cross-env NODE_ENV=development webpack --watch --progress",
-        "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+        "nodemon": "nodemon backend/app.js",
+        "dev": "cross-env NODE_ENV=development --mode=development webpack --watch --progress",
+        "build": "cross-env NODE_ENV=production --mode=production webpack --progress --hide-modules"
     },
     "dependencies": {
         "axios": "^0.19.2",
@@ -36,6 +36,7 @@
         "file-loader": "^1.1.4",
         "vue-loader": "^13.0.5",
         "vue-template-compiler": "^2.4.4",
-        "webpack": "^4.41.6"
+        "webpack": "^4.41.6",
+        "webpack-cli": "^3.3.11"
     }
 }
