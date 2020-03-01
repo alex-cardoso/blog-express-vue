@@ -12,11 +12,16 @@
     },
     "dependencies": {
         "axios": "^0.19.2",
+        "bcrypt": "^4.0.0",
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "express-handlebars": "^3.1.0",
         "helmet": "^3.21.3",
+        "mysql2": "^2.1.0",
+        "passport": "^0.4.1",
+        "passport-local": "^1.0.0",
         "path": "^0.12.7",
+        "sequelize": "^5.21.5",
         "vue": "^2.5.11"
     },
     "browserslist": [
@@ -33,7 +38,9 @@
         "css-loader": "^0.28.7",
         "eslint": "^6.8.0",
         "eslint-plugin-vue": "^6.2.1",
+        "faker": "^4.1.0",
         "file-loader": "^1.1.4",
+        "sequelize-cli": "^5.5.1",
         "vue-loader": "^13.0.5",
         "vue-template-compiler": "^2.4.4",
         "webpack": "^4.41.6",
