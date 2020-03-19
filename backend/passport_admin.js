@@ -1,5 +1,5 @@
 const LocalStrategy = require('passport-local').Strategy;
-const { User } = require('../database/models');
+const { User } = require('./database/models');
 const bcrypt = require('bcrypt');
 
 module.exports = passport => {
@@ -9,7 +9,7 @@ module.exports = passport => {
 
     passport.deserializeUser(async function(id, done) {
         const user = await User.findOne({
-            attributes: ['id', 'name', 'last_name'],
+            attributes: ['id', 'name', 'last_name', 'is_admin'],
             where: {
                 id,
             },
@@ -19,11 +19,13 @@ module.exports = passport => {
     });
 
     passport.use(
-        new LocalStrategy('site', async function(username, password, done) {
+        'admin',
+        new LocalStrategy(async function(username, password, done) {
             const user = await User.findOne({
-                attributes: ['id', 'name', 'last_name', 'password'],
+                attributes: ['id', 'name', 'last_name', 'password', 'is_admin'],
                 where: {
                     email: username,
+                    is_admin: 1,
                 },
             });
 

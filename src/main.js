@@ -3,4 +3,5 @@ import './assets/styles.css';
 
 new Vue({
     el: '#app',
+    components: {},
 });

@@ -20,6 +20,10 @@ module.exports = {
             password: {
                 type: Sequelize.STRING,
             },
+            is_admin: {
+                defaultValue: 2,
+                type: Sequelize.INTEGER,
+            },
             createdAt: {
                 allowNull: false,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),

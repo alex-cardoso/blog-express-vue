@@ -3,7 +3,10 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (request, response) => {
-    response.render('home');
+    response.render('../views/site/home', {
+        layout: 'main',
+        title: 'Home',
+    });
 });
 
 module.exports = router;

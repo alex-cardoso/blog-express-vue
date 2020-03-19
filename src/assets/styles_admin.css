@@ -1,0 +1,15 @@
+.custom_msg {
+    font-size: 16px;
+    font-style: italic;
+}
+
+._vue-flash-msg-body__content h3 {
+    font-style: normal;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+ul#menu_home {
+    list-style: none;
+    padding: 0;
+}
