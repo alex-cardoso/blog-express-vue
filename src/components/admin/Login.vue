@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import http from '../http';
+import http from '../../http';
 
 export default {
     data() {
