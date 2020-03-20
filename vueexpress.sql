@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: vueexpress
--- Generation Time: 2020-03-01 20:54:50.9340
+-- Generation Time: 2020-03-20 01:16:11.9870
 -- -------------------------------------------------------------
 
 
@@ -18,6 +18,19 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `post` varchar(255) DEFAULT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
 CREATE TABLE `SequelizeMeta` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`name`),
@@ -30,16 +43,22 @@ CREATE TABLE `users` (
   `last_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
+  `is_admin` int(11) DEFAULT '2',
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+INSERT INTO `posts` (`id`, `userId`, `title`, `post`, `slug`, `createdAt`, `updatedAt`) VALUES
+('3', '1', 'Teste', 'Teste do post', 'teste-de-post', '2020-03-20 01:15:43', '2020-03-20 01:15:43');
 
 INSERT INTO `SequelizeMeta` (`name`) VALUES
-('20200301234719-create-user.js');
+('20200301234719-create-user.js'),
+('20200319235049-create-post.js');
 
-INSERT INTO `users` (`id`, `name`, `last_name`, `email`, `password`, `createdAt`, `updatedAt`) VALUES
-('1', 'Raoul', 'Sanford', 'Stephan45@gmail.com', '$2b$10$uUO3.AoVnGD..a.1UCeX2Ok2h1nwbtb/U0QyejRQ6555s9FGFZAlK', '2020-03-01 20:53:50', '2020-03-01 20:53:50');
+INSERT INTO `users` (`id`, `name`, `last_name`, `email`, `password`, `is_admin`, `createdAt`, `updatedAt`) VALUES
+('1', 'Cornell', 'Mohr', 'Dora77@hotmail.com', '$2b$10$/9N/xeqh0bdhy4n35/cN8uWk6EJIL43GFpqeRjkBVjk.Ein2pIskm', '1', '2020-03-01 21:02:08', '2020-03-02 18:13:29'),
+('2', 'Lizzie', 'Crona', 'Gregorio42@hotmail.com', '$2b$10$2P6pputnS5/C3vRuAcfyO.9GRvJ/AZ/yh6mqFpfCZ/r86MP667lFq', '2', '2020-03-01 21:02:11', '2020-03-20 01:12:03');
 
 
 
