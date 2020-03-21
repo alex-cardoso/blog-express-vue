@@ -59,15 +59,35 @@
             </button>
         </div>
 
-        <hr />
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">Titulo</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-if="dont_have_posts">
+                    <td colspan="2">Nenhum post cadastrado</td>
+                </tr>
+                <tr v-for="(post, index) in posts_data['rows']" :key="post.id">
+                    <th>{{ post.title }}</th>
+                    <th>
+                        <button
+                            class="btn btn-outline-danger"
+                            @click="exclude(post.id, index)"
+                        >
+                            Excluir
+                        </button>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
 
-        <ul>
-            <li v-for="post in posts_data['rows']" :key="post.id">
-                {{ post['title'] }}
-            </li>
-        </ul>
-
-        <div class="overflow-auto">
+        <div
+            class="overflow-auto"
+            v-if="posts_data['count'] > posts_data['per_page']"
+        >
             <Pagination
                 :count="posts_data['count']"
                 :per_page="posts_data['per_page']"
@@ -99,6 +119,14 @@ export default {
     mounted() {
         this.posts();
     },
+    computed: {
+        dont_have_posts() {
+            return (
+                this.posts_data['rows'] !== undefined &&
+                this.posts_data['rows'].length <= 0
+            );
+        },
+    },
     methods: {
         async posts(page) {
             try {
@@ -119,10 +147,7 @@ export default {
 
         async store_post() {
             try {
-                const response = await http.post(
-                    '/dashboard/post/store',
-                    this.post
-                );
+                const response = await http.post('/dashboard/post', this.post);
 
                 if (response.data['title'] !== undefined) {
                     this.post = {};
@@ -151,7 +176,39 @@ export default {
                     time: 10000,
                     blockClass: 'custom_msg',
                 });
-                console.log(error.response.data);
+            }
+        },
+
+        async exclude(post_to_exclude, index) {
+            try {
+                const response = await http.delete('/dashboard/post', {
+                    data: {
+                        post: post_to_exclude,
+                    },
+                });
+
+                if (response.data === 'deleted') {
+                    this.flashMessage.show({
+                        status: 'success',
+                        title: 'Deletado',
+                        message: 'Post deletado com sucesso !',
+                        time: 10000,
+                        blockClass: 'custom_msg',
+                    });
+                    this.posts_data['rows'].splice(index, 1);
+                }
+
+                console.log(response.data);
+            } catch (error) {
+                this.flashMessage.show({
+                    status: 'error',
+                    title: 'Erro ao deletar post',
+                    message:
+                        'Erro ao deletar post, tente novamente em alguns segundos',
+                    time: 10000,
+                    blockClass: 'custom_msg',
+                });
+                console.log(error);
             }
         },
     },

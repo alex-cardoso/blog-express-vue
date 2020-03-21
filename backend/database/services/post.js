@@ -32,7 +32,22 @@ const store = async data => {
     }
 };
 
+const destroy = async id => {
+    try {
+        const deleted = await Post.destroy({
+            where: {
+                id,
+            },
+        });
+
+        return deleted;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 module.exports = {
     posts_with_user,
     store,
+    destroy,
 };

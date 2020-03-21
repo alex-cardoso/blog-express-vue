@@ -10,6 +10,7 @@ router.use(check_if_is_admin);
 router.get('/', Dashboard.index);
 router.get('/posts', Post.index);
 router.get('/posts/data', Post.posts);
-router.post('/post/store', validations, Post.store);
+router.post('/post', validations, Post.store);
+router.delete('/post', Post.destroy);
 
 module.exports = router;

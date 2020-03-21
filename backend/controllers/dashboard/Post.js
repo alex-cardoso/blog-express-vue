@@ -1,6 +1,7 @@
 const {
     posts_with_user,
     store: store_post,
+    destroy: destroy_post,
 } = require('../../database/services/post');
 const { validationResult } = require('express-validator');
 const { errors_validation } = require('../../helpers/errors');
@@ -46,8 +47,24 @@ const store = async (request, response) => {
     }
 };
 
+const destroy = async (request, response) => {
+    try {
+        const { post } = request.body;
+
+        const deleted = await destroy_post(post);
+
+        if (deleted) {
+            return response.status(200).json('deleted');
+        }
+        response.status(400).json('not_deleted');
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 module.exports = {
     index,
     posts,
     store,
+    destroy,
 };

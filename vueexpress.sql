@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: vueexpress
--- Generation Time: 2020-03-20 01:16:11.9870
+-- Generation Time: 2020-03-20 21:57:03.8870
 -- -------------------------------------------------------------
 
 
@@ -29,7 +29,7 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `SequelizeMeta` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -48,9 +48,6 @@ CREATE TABLE `users` (
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-INSERT INTO `posts` (`id`, `userId`, `title`, `post`, `slug`, `createdAt`, `updatedAt`) VALUES
-('3', '1', 'Teste', 'Teste do post', 'teste-de-post', '2020-03-20 01:15:43', '2020-03-20 01:15:43');
 
 INSERT INTO `SequelizeMeta` (`name`) VALUES
 ('20200301234719-create-user.js'),
