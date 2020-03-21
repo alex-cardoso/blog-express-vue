@@ -14,7 +14,8 @@ const index = (request, response) => {
 
 const posts = async (request, response) => {
     try {
-        const posts = await posts_with_user();
+        const { page } = request.query;
+        const posts = await posts_with_user(request.user['id'], page);
 
         response.status(200).json(posts);
     } catch (error) {
@@ -36,6 +37,8 @@ const store = async (request, response) => {
         data['userId'] = request.user['id'];
 
         const stored = await store_post(data);
+
+        stored.setDataValue('user', request.user);
 
         response.status(200).json(stored);
     } catch (error) {

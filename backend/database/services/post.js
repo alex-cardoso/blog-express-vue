@@ -1,14 +1,23 @@
 const { Post, User } = require('../models');
+const paginate = require('./paginate');
 
-const posts_with_user = async () => {
-    return await Post.findAll({
+const posts_with_user = async (user, page = 1) => {
+    const options = {
+        attributes: ['id', 'title', 'slug'],
         include: [
             {
                 model: User,
                 as: 'user',
             },
         ],
-    });
+        where: {
+            userId: user,
+        },
+        per_page: 20,
+        page,
+    };
+
+    return paginate(Post, options);
 };
 
 const store = async data => {

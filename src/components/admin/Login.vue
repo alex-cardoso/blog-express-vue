@@ -5,15 +5,27 @@
             <div class="row justify-content-md-center mt-3">
                 <div class="col">
                     <label for>Email</label>
-                    <input type="text" v-model="email" name="email" class="form-control" />
+                    <input
+                        type="text"
+                        v-model="email"
+                        name="email"
+                        class="form-control"
+                    />
                 </div>
                 <div class="col">
                     <label for>Senha</label>
-                    <input type="password" v-model="password" name="password" class="form-control" />
+                    <input
+                        type="password"
+                        v-model="password"
+                        name="password"
+                        class="form-control"
+                    />
                 </div>
             </div>
             <div class="row justify-content-end mr-auto">
-                <button type="submit" class="btn btn-outline-success mt-1">Logar</button>
+                <button type="submit" class="btn btn-outline-success mt-1">
+                    Logar
+                </button>
             </div>
         </form>
     </div>
