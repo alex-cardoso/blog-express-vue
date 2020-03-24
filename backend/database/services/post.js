@@ -1,32 +1,31 @@
 const { Post, User } = require('../models');
 const paginate = require('./paginate');
 
-const posts_with_user = async (user, page = 1) => {
-    const options = {
-        attributes: ['id', 'title', 'slug'],
-        include: [
-            {
-                model: User,
-                as: 'user',
-            },
-        ],
-        where: {
-            userId: user,
-        },
-        per_page: 20,
-        page,
-    };
+const posts_with_user = async (page = 1) => {
+    try {
+        const options = {
+            attributes: ['id', 'title', 'slug', 'updatedAt'],
+            include: [
+                {
+                    model: User,
+                    as: 'user',
+                },
+            ],
+            per_page: 1,
+            page,
+        };
 
-    return paginate(Post, options);
+        return paginate(Post, options);
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const store = async data => {
     try {
-        const stored = await Post.create({
+        return await Post.create({
             ...data,
         });
-
-        return stored;
     } catch (error) {
         console.log(error);
     }

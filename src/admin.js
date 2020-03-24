@@ -3,9 +3,7 @@ import Vue from 'vue';
 // Components other
 import FlashMessage from '@smartweb/vue-flash-message';
 import VModal from 'vue-js-modal';
-import { PaginationPlugin } from 'bootstrap-vue';
 
-Vue.use(PaginationPlugin);
 Vue.use(FlashMessage);
 Vue.use(VModal);
 

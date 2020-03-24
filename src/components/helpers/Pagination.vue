@@ -1,5 +1,5 @@
 <template>
-    <b-pagination
+    <BPagination
         v-model="currentPage"
         @input="change_page"
         :total-rows="count"
@@ -8,10 +8,12 @@
         prev-text="Prev"
         next-text="Next"
         last-text="Last"
-    ></b-pagination>
+    ></BPagination>
 </template>
 
 <script>
+import { BPagination } from 'bootstrap-vue';
+
 export default {
     props: {
         count: {
@@ -20,6 +22,9 @@ export default {
         per_page: {
             type: Number,
         },
+    },
+    components: {
+        BPagination,
     },
     data() {
         return {

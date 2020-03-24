@@ -68,18 +68,18 @@
             </thead>
             <tbody>
                 <tr v-if="dont_have_posts">
-                    <td colspan="2">Nenhum post cadastrado</td>
+                  <td colspan="2">Nenhum post cadastrado</td>
                 </tr>
                 <tr v-for="(post, index) in posts_data['rows']" :key="post.id">
-                    <th>{{ post.title }}</th>
-                    <th>
+                  <td>{{ post.title }} - <span class="font-italic">postado por {{ post['user']['name'] }} {{ post['user']['last_name'] }}</span></td>
+                    <td>
                         <button
                             class="btn btn-outline-danger"
                             @click="exclude(post.id, index)"
                         >
                             Excluir
                         </button>
-                    </th>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -197,8 +197,6 @@ export default {
                     });
                     this.posts_data['rows'].splice(index, 1);
                 }
-
-                console.log(response.data);
             } catch (error) {
                 this.flashMessage.show({
                     status: 'error',

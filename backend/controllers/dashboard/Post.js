@@ -16,7 +16,8 @@ const index = (request, response) => {
 const posts = async (request, response) => {
     try {
         const { page } = request.query;
-        const posts = await posts_with_user(request.user['id'], page);
+
+        const posts = await posts_with_user(page);
 
         response.status(200).json(posts);
     } catch (error) {
