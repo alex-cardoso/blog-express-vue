@@ -1,3 +1,4 @@
+'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.createTable('posts', {
@@ -7,21 +8,31 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            userId: {
-                type: Sequelize.INTEGER,
-                references: {
-                    model: 'users',
-                    key: 'id',
-                },
-                onDelete: ' CASCADE',
-            },
             title: {
                 type: Sequelize.STRING,
             },
-            post: {
-                type: Sequelize.STRING,
+            slug: { type: Sequelize.STRING },
+            userId: {
+                type: Sequelize.INTEGER,
+                preferences: {
+                    model: 'users',
+                    key: 'id',
+                },
+                onDelete: 'CASCADE',
             },
-            slug: {
+            categoryId: {
+                type: Sequelize.INTEGER,
+                preferences: {
+                    model: 'categories',
+                    key: 'id',
+                },
+                onDelete: 'CASCADE',
+            },
+            post: {
+                type: Sequelize.TEXT,
+            },
+            image: {
+                allowNull: true,
                 type: Sequelize.STRING,
             },
             createdAt: {

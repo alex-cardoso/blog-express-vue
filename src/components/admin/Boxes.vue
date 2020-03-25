@@ -3,7 +3,7 @@
         <div class="bg-primary p-4 text-white">Posts: {{ posts_count }}</div>
         <div class="bg-danger p-4 text-white">Posts Hoje: {{ posts_today_count.length }}</div>
         <div class="bg-success p-4 text-white">Users {{ users_count }}</div>
-        <div class="bg-info p-4 text-white">Categorias</div>
+        <div class="bg-info p-4 text-white">Categorias: {{ categories_count }}</div>
     </div>
 </template>
 
@@ -22,6 +22,7 @@ export default {
     mounted() {
         this.posts();
         this.users();
+        this.categories();
     },
     methods: {
         async posts() {
@@ -48,6 +49,16 @@ export default {
                 this.users_count = response.data['count'];
             } catch (error) {
                 this.users_count = 0;
+            }
+        },
+
+        async categories() {
+            try {
+                const response = await http.get('/dashboard/categories/data');
+                console.log(response.data);
+                this.categories_count = response.data['count'];
+            } catch (error) {
+                console.log(error);
             }
         },
     },

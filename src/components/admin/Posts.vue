@@ -3,7 +3,12 @@
         <FlashMessage position="right bottom"></FlashMessage>
         <modal name="new-post" width="60%" :adaptive="true" height="auto">
             <div class="p-4 d-flex justify-content-between align-items-center">
-                <h3>Novo Post</h3>
+                <h3>
+                    <template v-if="!is_update">
+                        Novo Post
+                    </template>
+                    <template v-else>Editar Post</template>
+                </h3>
                 <button
                     class="btn btn-outline-danger btn-sm"
                     @click="$modal.hide('new-post')"
@@ -41,19 +46,30 @@
                         v-model="post['post']"
                     ></textarea>
 
-                    <button
-                        type="submit"
-                        class="btn btn-outline-success btn-sm mt-2 float-right mb-2"
-                    >
-                        Cadastrar
-                    </button>
+                    <template v-if="!is_update">
+                        <button
+                            type="submit"
+                            class="btn btn-outline-success btn-sm mt-2 float-right mb-2"
+                        >
+                            Cadastrar
+                        </button>
+                    </template>
+                    <template v-else>
+                        <button
+                            type="submit"
+                            class="btn btn-outline-success btn-sm mt-2 float-right mb-2"
+                        >
+                            Atualizar
+                        </button>
+                    </template>
                 </form>
             </section>
         </modal>
+
         <div
             class="row ml-auto d-flex align-items-center justify-content-between"
         >
-            <h2>Lista de posts</h2>
+            <h2>Lista de posts ({{ posts_data['count'] }})</h2>
             <button class="btn btn-outline-primary" @click="new_post">
                 Novo
             </button>
@@ -64,14 +80,30 @@
                 <tr>
                     <th scope="col">Titulo</th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-if="dont_have_posts">
-                  <td colspan="2">Nenhum post cadastrado</td>
+                    <td colspan="2">Nenhum post cadastrado</td>
                 </tr>
                 <tr v-for="(post, index) in posts_data['rows']" :key="post.id">
-                  <td>{{ post.title }} - <span class="font-italic">postado por {{ post['user']['name'] }} {{ post['user']['last_name'] }}</span></td>
+                    <td>
+                        {{ post.title }} -
+                        <span class="font-italic"
+                            >postado por {{ post['user']['name'] }}
+                            {{ post['user']['last_name'] }} -
+                            {{ moment(post['updatedAt']).fromNow() }}</span
+                        >
+                    </td>
+                    <td>
+                        <button
+                            class="btn btn-outline-info"
+                            @click="edit(post)"
+                        >
+                            Editar
+                        </button>
+                    </td>
                     <td>
                         <button
                             class="btn btn-outline-danger"
@@ -100,15 +132,18 @@
 <script>
 import http from '../../http';
 import Pagination from '../helpers/Pagination';
+import moment from 'moment';
 
 export default {
     data() {
         return {
+            moment,
             post: {
                 title: '',
                 slug: '',
                 post: '',
             },
+            is_update: false,
             errors: {},
             posts_data: [],
         };
@@ -118,6 +153,7 @@ export default {
     },
     mounted() {
         this.posts();
+        moment.locale('pt-br');
     },
     computed: {
         dont_have_posts() {
@@ -142,6 +178,8 @@ export default {
         },
 
         new_post() {
+            this.is_update = false;
+            this.post = {};
             this.$modal.show('new-post');
         },
 
@@ -153,6 +191,7 @@ export default {
                     this.post = {};
                     this.errors = {};
                     this.$modal.hide('new-post');
+                    this.posts_data['count'] += 1;
                     this.posts_data['rows'].push(response.data);
                     this.flashMessage.show({
                         status: 'success',
@@ -179,6 +218,13 @@ export default {
             }
         },
 
+        async update_post() {
+            // try {
+            // } catch (error) {
+            //     console.log(error);
+            // }
+        },
+
         async exclude(post_to_exclude, index) {
             try {
                 const response = await http.delete('/dashboard/post', {
@@ -196,6 +242,7 @@ export default {
                         blockClass: 'custom_msg',
                     });
                     this.posts_data['rows'].splice(index, 1);
+                    this.posts_data['count'] -= 1;
                 }
             } catch (error) {
                 this.flashMessage.show({
@@ -208,6 +255,14 @@ export default {
                 });
                 console.log(error);
             }
+        },
+
+        edit(post) {
+            this.$modal.show('new-post');
+            this.is_update = true;
+
+            this.post = post;
+            console.log(post);
         },
     },
 };

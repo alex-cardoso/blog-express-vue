@@ -4,6 +4,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
     entry: {
         public: './src/main.js',
+        dashboard: './src/dashboard.js',
         admin: './src/admin.js',
     },
     output: {

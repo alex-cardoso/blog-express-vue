@@ -6,6 +6,7 @@ const path = require('path');
 const passport = require('passport');
 const passport_admin = require('./passport_admin');
 const session = require('express-session');
+const variables_to_template = require('./middlewares/variables_to_templates');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(variables_to_template);
 app.use('/', require('./routes/routes'));
 app.use('/admin', require('./routes/admin')(passport));
 app.use('/dashboard', require('./routes/dashboard'));
