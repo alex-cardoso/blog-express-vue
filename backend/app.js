@@ -37,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(variables_to_template);
-app.use('/', require('./routes/routes'));
+app.use('/', require('./routes/routes')(passport));
 app.use('/admin', require('./routes/admin')(passport));
 app.use('/dashboard', require('./routes/dashboard'));
 

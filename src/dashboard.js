@@ -5,7 +5,9 @@ import Vuex from 'vuex';
 import FlashMessage from '@smartweb/vue-flash-message';
 import VModal from 'vue-js-modal';
 import vuex_modules from './vuex/modules';
+import { BPagination } from 'bootstrap-vue/esm/components/pagination/pagination';
 
+// Registered globally
 Vue.use(FlashMessage);
 Vue.use(VModal);
 Vue.use(Vuex);
@@ -13,9 +15,10 @@ Vue.use(Vuex);
 // components
 import Boxes from './components/admin/Boxes';
 import Posts from './components/admin/Posts';
+import Users from './components/admin/Users';
 
-// css
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+// components from bootstrap-vue
+Vue.component('b-pagination', BPagination);
 
 new Vue({
     el: '#app',
@@ -25,5 +28,6 @@ new Vue({
     components: {
         Boxes,
         Posts,
+        Users,
     },
 });

@@ -2,11 +2,13 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/', (request, response) => {
-    response.render('../views/site/home', {
-        layout: 'main',
-        title: 'Home',
-    });
-});
+// controllers
+const Home = require('../controllers/site/Home');
+const Post = require('../controllers/site/Post');
 
-module.exports = router;
+module.exports = passport => {
+    router.get('/', Home.index);
+    router.get('/posts/latest', Post.latest);
+
+    return router;
+};

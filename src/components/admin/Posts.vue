@@ -1,12 +1,16 @@
 <template>
     <div>
         <FlashMessage position="right bottom"></FlashMessage>
-        <modal name="new-post" width="60%" :adaptive="true" height="auto">
+        <modal
+            name="new-post"
+            width="60%"
+            :adaptive="true"
+            height="auto"
+            @before-close="errors = {}"
+        >
             <div class="p-4 d-flex justify-content-between align-items-center">
                 <h3>
-                    <template v-if="!is_update">
-                        Novo Post
-                    </template>
+                    <template v-if="!is_update">Novo Post</template>
                     <template v-else>Editar Post</template>
                 </h3>
                 <button
@@ -18,7 +22,7 @@
             </div>
             <hr />
             <section class="p-4">
-                <form action @submit.prevent="store_post">
+                <form action @submit.prevent="submit_conditional">
                     <label for>Titulo</label>
                     <span class="error">{{ errors['title'] }}</span>
                     <input
@@ -90,11 +94,11 @@
                 <tr v-for="(post, index) in posts_data['rows']" :key="post.id">
                     <td>
                         {{ post.title }} -
-                        <span class="font-italic"
-                            >postado por {{ post['user']['name'] }}
+                        <span class="font-italic">
+                            postado por {{ post['user']['name'] }}
                             {{ post['user']['last_name'] }} -
-                            {{ moment(post['updatedAt']).fromNow() }}</span
-                        >
+                            {{ moment(post['updatedAt']).fromNow() }}
+                        </span>
                     </td>
                     <td>
                         <button
@@ -116,10 +120,7 @@
             </tbody>
         </table>
 
-        <div
-            class="overflow-auto"
-            v-if="posts_data['count'] > posts_data['per_page']"
-        >
+        <div class="overflow-auto" v-if="posts_data['pages'] > 1">
             <Pagination
                 :count="posts_data['count']"
                 :per_page="posts_data['per_page']"
@@ -177,6 +178,10 @@ export default {
             }
         },
 
+        submit_conditional() {
+            return !this.is_update ? this.store_post() : this.update_post();
+        },
+
         new_post() {
             this.is_update = false;
             this.post = {};
@@ -219,10 +224,26 @@ export default {
         },
 
         async update_post() {
-            // try {
-            // } catch (error) {
-            //     console.log(error);
-            // }
+            try {
+                const response = await http.put('/dashboard/post', this.post);
+                console.log(response.data);
+            } catch (error) {
+                console.log(error);
+
+                if (error.response !== undefined) {
+                    this.errors = error.response.data;
+                    return false;
+                }
+
+                this.flashMessage.show({
+                    status: 'error',
+                    title: 'Erro ao atualizar post',
+                    message:
+                        'Erro ao atualizar post, tente novamente em alguns segundos',
+                    time: 10000,
+                    blockClass: 'custom_msg',
+                });
+            }
         },
 
         async exclude(post_to_exclude, index) {
@@ -262,7 +283,6 @@ export default {
             this.is_update = true;
 
             this.post = post;
-            console.log(post);
         },
     },
 };

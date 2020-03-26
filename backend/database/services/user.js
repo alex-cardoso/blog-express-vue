@@ -4,8 +4,8 @@ const paginate = require('./paginate');
 const users_data = async page => {
     try {
         const options = {
-            attributes: ['name', 'last_name', 'updatedAt'],
-            per_page: 20,
+            attributes: ['name', 'last_name', 'email', 'updatedAt'],
+            per_page: 15,
             page,
         };
 

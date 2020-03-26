@@ -13,8 +13,10 @@ router.get('/', Dashboard.index);
 router.get('/posts', Post.index);
 router.get('/posts/data', Post.posts);
 router.post('/post', validations, Post.store);
+router.put('/post', validations, Post.update);
 router.delete('/post', Post.destroy);
 router.get('/users/data', User.users);
 router.get('/categories/data', Category.categories);
+router.get('/users', User.index);
 
 module.exports = router;

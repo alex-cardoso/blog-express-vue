@@ -29,7 +29,7 @@ const get_limit_offset = (page, per_page) => {
 };
 
 const pages = (count, per_page) => {
-    return Math.round(count / per_page);
+    return Math.ceil(count / per_page);
 };
 
 module.exports = paginate;

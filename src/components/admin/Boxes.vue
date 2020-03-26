@@ -55,7 +55,6 @@ export default {
         async categories() {
             try {
                 const response = await http.get('/dashboard/categories/data');
-                console.log(response.data);
                 this.categories_count = response.data['count'];
             } catch (error) {
                 console.log(error);

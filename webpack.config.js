@@ -1,5 +1,5 @@
-const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -28,21 +28,20 @@ module.exports = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
             },
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]?[hash]',
-                },
-            },
         ],
     },
-    plugins: [new VueLoaderPlugin()],
+    plugins: [
+        new VueLoaderPlugin(),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /pt-br/),
+    ],
     resolve: {
         alias: {
             vue$: 'vue/dist/vue.esm.js',
         },
         extensions: ['*', '.js', '.vue', '.json'],
+    },
+    optimization: {
+        minimize: process.env.NODE_ENV === 'development' ? false : true,
     },
     devServer: {
         historyApiFallback: true,
@@ -54,24 +53,3 @@ module.exports = {
     },
     devtool: '#eval-source-map',
 };
-
-if (process.env.NODE_ENV === 'production') {
-    module.exports.devtool = '#source-map';
-    // http://vue-loader.vuejs.org/en/workflow/production.html
-    module.exports.plugins = (module.exports.plugins || []).concat([
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"',
-            },
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            compress: {
-                warnings: false,
-            },
-        }),
-        new webpack.LoaderOptionsPlugin({
-            minimize: true,
-        }),
-    ]);
-}

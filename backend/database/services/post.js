@@ -11,7 +11,7 @@ const posts_with_user = async (page = 1) => {
                     as: 'user',
                 },
             ],
-            per_page: 20,
+            per_page: 15,
             page,
         };
 
@@ -45,8 +45,24 @@ const destroy = async id => {
     }
 };
 
+const update = async post => {
+    const updated = await Post.update(
+        {
+            ...post,
+        },
+        {
+            where: {
+                id: post.id,
+            },
+        }
+    );
+
+    return updated;
+};
+
 module.exports = {
     posts_with_user,
     store,
+    update,
     destroy,
 };
