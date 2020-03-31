@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
+
+html body {
+    font-family: 'Lato', sans-serif;
+}
+
+.custom_msg {
+    font-size: 16px;
+    font-style: italic;
+}
+
+._vue-flash-msg-body__content h3 {
+    font-style: normal;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+ul#menu_home {
+    list-style: none;
+    padding: 0;
+    font-size: 18px;
+}
+
+.error {
+    color: red;
+    font-style: italic;
+    font-size: 13px;
+    margin-left: 5px;
+}
